@@ -14,39 +14,40 @@ function setup() {
   divHeight = fractalDiv.size().height;
 
   //Creacion canvas
+  //canvas = createCanvas(divWidth,divHeight); 
   canvas = createCanvas(divWidth, windowHeight / 1.4);
   // colocar canvas en contenedor
   canvas.parent(fractalDiv);
 
   //Slider Iteraciones
   let text1 = createP('Iteraciones');
-  text1.parent("slider");
+  text1.parent("sliderIteraciones");
   iterationsSlider = createSlider(1, 6, 3, 1);
-  iterationsSlider.parent("slider");
+  iterationsSlider.parent("sliderIteraciones");
   iterationsSlider.class("sliderSkin");
   //Slider Proporcion
   let text2 = createP('Proporción');
-  text2.parent("slider");
+  text2.parent("sliderProporcion");
   proportionSlider = createSlider(0.2, 0.8, 0.4, 0.01);
-  proportionSlider.parent("slider");
+  proportionSlider.parent("sliderProporcion");
   proportionSlider.class("sliderSkin");
   //Slider Zoom
   let text3 = createP('zoom');
-  text3.parent("slider");
+  text3.parent("sliderZoom");
   lengthSlider = createSlider(divWidth / 10, divWidth / 2, divWidth / 5, 0);
-  lengthSlider.parent("slider");
+  lengthSlider.parent("sliderZoom");
   lengthSlider.class("sliderSkin");
   //ColorPicker del fondo
   let texto_color = createP("Color del fondo");
-  texto_color.parent("slider");
+  texto_color.parent("sliderColorFondo");
   colorPicker = createColorPicker(color(173, 216, 230));
-  colorPicker.parent("slider");
+  colorPicker.parent("sliderColorFondo");
   colorPicker.class("sliderSkin");
   //ColorPicker del fractal
   let cuadro_color = createP("Color del fractal");
-  cuadro_color.parent("slider");
+  cuadro_color.parent("sliderColorFractal");
   colorPickerCuadro = createColorPicker(color(random(0, 255), random(0, 255), random(0, 255)));
-  colorPickerCuadro.parent("slider");
+  colorPickerCuadro.parent("sliderColorFractal");
   colorPickerCuadro.class("sliderSkin");
 
   //Deteccion de cambios
@@ -148,6 +149,7 @@ function preload() {
 function windowResized() {
   // Actualiza el tamaño del lienzo cuando se cambia el tamaño de la ventana
   divWidth = fractalDiv.size().width;
+  //resizeCanvas(divWidth,divWidth);
   resizeCanvas(divWidth, windowHeight / 1.4);
 }
 //  Cambiar color background
@@ -178,13 +180,16 @@ function uploadImage() {
 //Funcion para descargar la imagen
 function descargarImagen() {
   //Medidas recorte y centro
-  let x = (canvas.width - canvas.height) / 2;
-  let y = 0;
+  //let x = (canvas.width - canvas.height) / 2;
+  //let y = (canvas.height) / 2;
+
   let w = canvas.width;
   let h = canvas.height;
-
+  let a = min(w, h);
+  let x = (w - a) / 2;
+  let y = (h - a) / 2;
   //Creacion del canvas cuadrado
-  let imagenDescargar = createGraphics(h, h);
+  let imagenDescargar = createGraphics(a, a);
   //Asignacion de color al fondo del canvas para que se vea en la descarga
   imagenDescargar.background(colorPicker.color())
 
@@ -193,7 +198,15 @@ function descargarImagen() {
 
 
   //Recorte del canvas
-  imagenDescargar.image(canvas.get(x, y, w, h), 0, 0);
+  imagenDescargar.image(canvas.get(x, y, a, a), 0, 0);
   //Descarga del  nuevo canvas
   imagenDescargar.save("Fractal.png");
 }
+<<<<<<< Updated upstream
+=======
+//function descargarImagen() {
+//  let nombre = "Fractal";
+//  let formato = "png";
+//  saveCanvas(canvas,nombre,formato);
+//}
+>>>>>>> Stashed changes
